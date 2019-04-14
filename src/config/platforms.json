@@ -1,0 +1,16 @@
+{
+    "platforms": [
+        {
+            "platformName": "Nintendo Entertainment System",
+            "platformShort" : "NES",
+            "displayImage": "../images/nes.jpg",
+            "coreName": "nestopia"
+        },
+        {
+            "platformName": "Nintendo Super Entertainment System",
+            "platformShort": "SNES",
+            "displayImage": "../images/snes.jpg",
+            "coreName":"snes9x"
+        }
+    ]
+}
