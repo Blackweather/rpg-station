@@ -21,6 +21,7 @@ This repository uses GitHub flow https://guides.github.com/introduction/flow/
    |---config   # Configuration files directory
    |---docs     # Additional documentation directory
    |---images   # Images directory
+   |---rpg-station 	# Python code root directory
    |---scripts  # Bash helper scripts directory
    |---test     # Unit tests directory
 ```
