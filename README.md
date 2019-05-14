@@ -21,5 +21,6 @@ This repository uses GitHub flow https://guides.github.com/introduction/flow/
    |---config   # Configuration files directory
    |---docs     # Additional documentation directory
    |---images   # Images directory
+   |---scripts  # Bash helper scripts directory
    |---test     # Unit tests directory
 ```
