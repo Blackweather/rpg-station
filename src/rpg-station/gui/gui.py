@@ -10,6 +10,10 @@ class Gui:
 
     def run(self):
         print("Initialized the application @gui class")
+        #TODO
+        # Create a main menu window
+        # Display it
+        # Decide what to do next (returned by Window.display?)
         pygame.init()
         # Set window parameters
         screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
@@ -72,4 +76,3 @@ class Gui:
             screen.blit(text_quit, (0, 360))
             pygame.display.update()
             clock.tick(FPS)
-            pygame.display.set_caption("Pygame simple main menu selection")
