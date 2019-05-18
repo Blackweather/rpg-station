@@ -35,7 +35,7 @@ class Window:
 
     def __init__(self, title, choices, controls):
         self.title = title
-        self.choices = [*choices, "exit"]
+        self.choices = [*choices, "Exit"]
         self.controls = controls
         if len(self.choices) > 0 and len(self.controls) > 0:
             self.init_pygame()
@@ -45,12 +45,12 @@ class Window:
 
     """
     Description:
-    
+
     Parameters:
     number(int): current index of the list
     length(int): length of the list
     change(int): step to change the list element
-    
+
     Return:
     index(int): index of the previous/next element
     """
@@ -81,8 +81,8 @@ class Window:
             return TESTED_FONTS
 
         # else calculate the fonts
-        title_font = (current_resolution / TESTED_RESOLUTION) * TESTED_FONTS[0]
-        opt_font = (current_resolution / TESTED_RESOLUTION) * TESTED_FONTS[1]
+        title_font = int((current_resolution / TESTED_RESOLUTION) * TESTED_FONTS[0])
+        opt_font = int((current_resolution / TESTED_RESOLUTION) * TESTED_FONTS[1])
 
         return (title_font, opt_font)
 
@@ -139,7 +139,7 @@ class Window:
     def display(self):
         """
         Returns:
-        new_title (string): name of the next window 
+        new_title (string): name of the next window
         or "exit" in case of going back
         """
         # Window loop
@@ -168,7 +168,6 @@ class Window:
 
             # Window display
             self.screen.fill(self.blue)
-            # TODO: count positions for text
             title_font_size, opt_font_size = self.get_font_size()
             # text formatting
             title = self.text_format(self.title, self.font, title_font_size, self.yellow)
@@ -184,8 +183,12 @@ class Window:
 
             # get the list of coordinates
             coords = self.get_coord_list(font_sizes=(title_font_size, opt_font_size))
-            options_with_coords = list(zip(options_formatted, coords))
+            options_with_coords = list(zip(options_formatted, coords[1:]))
 
+            # insert title
+            self.screen.blit(title, coords[0])
+
+            # insert options
             for opt in options_with_coords:
                 self.screen.blit(opt[0], opt[1])
 

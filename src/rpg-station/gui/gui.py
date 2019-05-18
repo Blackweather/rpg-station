@@ -1,6 +1,6 @@
 import pygame
-import Window
 import os
+from .window import Window
 
 class Gui:
 
@@ -18,74 +18,4 @@ class Gui:
         START_SCREEN_OPT = ["Start", "Controls", "Hotkeys"]
         start_screen = Window(title="Raspberry Pi Gaming Station", choices=START_SCREEN_OPT, controls=[""])
         start_screen.display()
-        """
-        pygame.init()
-        # Set window parameters
-        screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 
-        # Colors
-        white = (255, 255, 255)
-        black = (0, 0, 0)
-        gray = (50, 50, 50)
-        red = (255, 0, 0)
-        green = (0, 255, 0)
-        blue = (173, 216, 230)
-        yellow = (255, 255, 0)
-
-        # Fonts
-        font = "./gui/font/OpenSans-Regular.ttf"
-
-        # Game Framerate
-        clock = pygame.time.Clock()
-        FPS = 30
-
-        selected = "start"
-        is_quitting= False
-        while True:
-            for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_UP:
-                        selected = "start"
-                    elif event.key == pygame.K_DOWN:
-                        selected = "quit"
-                    elif event.key == pygame.K_RETURN:
-                        if selected == "start":
-                            print("start")
-                        if selected == "quit":
-                            w,h = pygame.display.get_surface().get_size()
-                            print(f'Width = {w}, Height = {h}')
-                            pygame.quit()
-                            is_quitting = True
-
-            if is_quitting:
-                break
-
-            # Main Menu UI
-            screen.fill(blue)
-            title = self.text_format("Raspberry Pi Gaming Station", font, 100, yellow)
-            if selected == "start":
-                text_start = self.text_format("START", font, 70, white)
-            else:
-                text_start = self.text_format("START", font, 70, black)
-
-            if selected == "quit":
-                text_quit = self.text_format("QUIT", font, 70, white)
-            else:
-                text_quit = self.text_format("QUIT", font, 70, black)
-
-            #title_rect = title.get_rect()
-            #start_rect = text_start.get_rect()
-            #quit_rect = text_quit.get_rect()
-            start_rect = text_start.get_rect()
-            w, _ = pygame.display.get_surface().get_size()
-
-            #print(f'Start rect width = {start_rect.width}')
-
-            # Main Menu Text
-            screen.blit(title, (0, 80))
-            #screen.blit(text_start, ((w-start_rect.width)/2, 300))
-            screen.blit(text_start, (0, 300))
-            screen.blit(text_quit, (0, 380))
-            pygame.display.update()
-            clock.tick(FPS)
-            """
