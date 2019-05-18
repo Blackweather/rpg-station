@@ -1,4 +1,5 @@
 import pygame
+import Window
 import os
 
 class Gui:
@@ -14,6 +15,10 @@ class Gui:
         # Create a main menu window
         # Display it
         # Decide what to do next (returned by Window.display?)
+        START_SCREEN_OPT = ["Start", "Controls", "Hotkeys"]
+        start_screen = Window(title="Raspberry Pi Gaming Station", choices=START_SCREEN_OPT, controls=[""])
+        start_screen.display()
+        """
         pygame.init()
         # Set window parameters
         screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
@@ -24,7 +29,7 @@ class Gui:
         gray = (50, 50, 50)
         red = (255, 0, 0)
         green = (0, 255, 0)
-        blue = (0, 0, 255)
+        blue = (173, 216, 230)
         yellow = (255, 255, 0)
 
         # Fonts
@@ -47,6 +52,8 @@ class Gui:
                         if selected == "start":
                             print("start")
                         if selected == "quit":
+                            w,h = pygame.display.get_surface().get_size()
+                            print(f'Width = {w}, Height = {h}')
                             pygame.quit()
                             is_quitting = True
 
@@ -55,24 +62,30 @@ class Gui:
 
             # Main Menu UI
             screen.fill(blue)
-            title = self.text_format("Raspberry Pi Gaming Station", font, 50, yellow)
+            title = self.text_format("Raspberry Pi Gaming Station", font, 100, yellow)
             if selected == "start":
-                text_start = self.text_format("START", font, 35, white)
+                text_start = self.text_format("START", font, 70, white)
             else:
-                text_start = self.text_format("START", font, 35, black)
+                text_start = self.text_format("START", font, 70, black)
 
             if selected == "quit":
-                text_quit = self.text_format("QUIT", font, 35, white)
+                text_quit = self.text_format("QUIT", font, 70, white)
             else:
-                text_quit = self.text_format("QUIT", font, 35, black)
+                text_quit = self.text_format("QUIT", font, 70, black)
 
-            title_rect = title.get_rect()
+            #title_rect = title.get_rect()
+            #start_rect = text_start.get_rect()
+            #quit_rect = text_quit.get_rect()
             start_rect = text_start.get_rect()
-            quit_rect = text_quit.get_rect()
+            w, _ = pygame.display.get_surface().get_size()
+
+            #print(f'Start rect width = {start_rect.width}')
 
             # Main Menu Text
             screen.blit(title, (0, 80))
+            #screen.blit(text_start, ((w-start_rect.width)/2, 300))
             screen.blit(text_start, (0, 300))
-            screen.blit(text_quit, (0, 360))
+            screen.blit(text_quit, (0, 380))
             pygame.display.update()
             clock.tick(FPS)
+            """
