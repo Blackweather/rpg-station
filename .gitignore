@@ -104,3 +104,7 @@ venv.bak/
 .mypy_cache/
 
 *.srm
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/rpg-station.iml
+/.idea/workspace.xml
