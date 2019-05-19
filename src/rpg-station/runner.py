@@ -1,10 +1,10 @@
-from gui.gui import Gui
+from app.app import App
 # This file serves as an entrypoint to the application
 
 def main():
     print("This is the entrypoint to the application")
-    gui = Gui()
-    gui.run()
+    app = App()
+    app.run()
 
 if __name__ == "__main__":
     main()
