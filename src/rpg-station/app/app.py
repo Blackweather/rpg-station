@@ -1,5 +1,6 @@
 from gui.window import Window
 from .window_parameters import WindowParameters
+import pygame
 
 class App:
     """
@@ -35,7 +36,7 @@ class App:
         windows.append(WindowParameters(title="Controls",
                                         options=["Save"],
                                         current_id=5,
-                                        previous_id=4))
+                                        previous_id=1))
         # TODO: fill this window with options
         # window for setting up menu hotkeys
         windows.append(WindowParameters(title="Hotkeys",
@@ -72,8 +73,12 @@ class App:
         print("Initialized the application @app class")
         windows = self.define_windows()
         current_params = self.get_windowparameters_by_title(windows, "Raspberry Pi Gaming Station")
+        # initalize pygame submodules
+        pygame.init()
+        # create a pygame default window
+        screen =pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         while True:
-            current_window = Window(current_params.title, current_params.options, controls=[""])
+            current_window = Window(screen=screen, title=current_params.title, choices=current_params.options, controls=[""])
             result = current_window.display()
             if result == "Exit":
                 current_params = self.get_windowparameters_by_id(windows, current_params.previous_id)
@@ -85,3 +90,5 @@ class App:
                 new_params = self.get_windowparameters_by_title(windows, result)
                 if new_params != None:
                     current_params = new_params
+        pygame.display.quit()
+        pygame.quit()

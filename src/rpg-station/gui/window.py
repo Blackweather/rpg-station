@@ -10,9 +10,6 @@ class Window:
     """
 
     def init_pygame(self):
-        pygame.init()
-        # Set window parameters
-        self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         # Colors
         self.white = (255, 255, 255)
         self.black = (0, 0, 0)
@@ -33,7 +30,8 @@ class Window:
         new_text = new_font.render(message, 0, text_color)
         return new_text
 
-    def __init__(self, title, choices, controls):
+    def __init__(self, screen, title, choices, controls):
+        self.screen = screen
         self.title = title
         self.choices = [*choices, "Exit"]
         self.controls = controls
@@ -197,6 +195,5 @@ class Window:
 
     def destroy(self):
         # Quit pygame without quitting application
-        pygame.display.quit()
-        pygame.quit()
+        self.screen.fill(self.blue)
         print("Exited Window with title: " + self.title)
