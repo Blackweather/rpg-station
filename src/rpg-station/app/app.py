@@ -3,7 +3,6 @@ from .window_generator import WindowGenerator
 import pygame
 
 class App:
-    
     def run(self):
         print("Initialized the application @app class")
         window_generator = WindowGenerator()
@@ -11,6 +10,8 @@ class App:
         current_params = window_generator.get_windowparameters_by_title(windows, "Raspberry Pi Gaming Station")
         # initalize pygame submodules
         pygame.init()
+        # disable mouse cursor
+        pygame.mouse.set_visible(0)
         # create a pygame default window
         screen =pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         while True:
