@@ -3,7 +3,7 @@ import json
 class ConfigManager:
     def load_config(self):
         # loads the config JSON as dictionary list
-        with open("../config/platforms.json") as config_json:
+        with open("../../config/platforms.json") as config_json:
             config = json.load(config_json)
             self.platforms = list(config.values())[0]
     def get_platform_names(self):
