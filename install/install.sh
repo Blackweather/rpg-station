@@ -4,7 +4,7 @@
 
 #check if python3 is installed
 PYCHECK=$(which python3 | echo $?)
-if [[ $PYCHECK == 1 ]]
+if [[ $PYCHECK != "0" ]]
 	sudo apt-get install libssl-dev openssl
 	wget https://www.python.org/ftp/python/3.5.0/Python-3.5.0.tgz
 	tar xzvf Python-3.5.0.tgz
