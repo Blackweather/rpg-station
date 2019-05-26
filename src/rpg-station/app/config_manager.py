@@ -21,7 +21,3 @@ class ConfigManager:
 
     #TODO: create methods for changing/adding platforms and overwriting the config
 
-# Sample usage
-plats = ConfigManager()
-plats.load_config()
-print(plats.get_platform_shorts_with_ext())
