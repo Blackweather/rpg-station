@@ -1,6 +1,7 @@
 import pytest
 from . game_manager import GameManager
 import os
+import shutil
 
 class TestGameManager:
     def test_get_files(self):
@@ -19,6 +20,7 @@ class TestGameManager:
         # act
         os.chdir("../")
         result = gm.get_files(p)
+        shutil.rmtree(p)
         # assert
         assert result == files
 
