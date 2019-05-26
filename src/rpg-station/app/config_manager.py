@@ -1,6 +1,6 @@
 import json
 
-class Platforms:
+class ConfigManager:
     def load_config(self):
         # loads the config JSON as dictionary list
         with open("../config/platforms.json") as config_json:
@@ -22,6 +22,6 @@ class Platforms:
     #TODO: create methods for changing/adding platforms and overwriting the config
 
 # Sample usage
-plats = Platforms()
+plats = ConfigManager()
 plats.load_config()
 print(plats.get_platform_shorts_with_ext())

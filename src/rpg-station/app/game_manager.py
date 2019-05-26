@@ -77,5 +77,5 @@ class GameManager:
             for files in matched_files[platorms]:
                 filename = ntpath.basename(files)
                 copyfile(files, os.path.join(platform_path, filename))
-        #TODO: show a messagebox
+        #TODO: show a messagebox - use Window class?
         print("Files imported to Raspberry Pi Gaming Station")
