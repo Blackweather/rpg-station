@@ -17,6 +17,15 @@
             "extensions": [
                 ".sfc"
             ]
-        }
+        },
+	{
+	    "platformName": "Nintendo Game Boy",
+	    "platformShort": "GB",
+	    "displayImage": "../images/placeholder.jpg",
+	    "coreName": "gambatte",
+	    "extensions": [
+		".gb"
+	    ]
+	}
     ]
 }
