@@ -1,3 +1,5 @@
+import os
+
 # class for holding single window parameters
 class WindowParameters:
     def __init__(self, title, options, current_id, previous_id):
@@ -6,21 +8,33 @@ class WindowParameters:
         self.current_id = current_id
         self.previous_id = previous_id
 class WindowGenerator:
-    
+    """
+        Returns: platforms(List<String>) -
+        non-empty platform directories
+    """
+    def define_platforms(self):
+        platforms = []
+        ROOT_ROM_DIR = "../../rom"
+        print(os.walk(ROOT_ROM_DIR))
+        for r,d,f in os.walk(ROOT_ROM_DIR):
+            for _file in f:
+                platforms.append(r.split('/')[-1].upper())
+        return sorted(list(set(platforms)))
     """
         Returns: windows(List<WindowParameters>) -
             a list of windows defined in the application
     """
     def define_windows(self):
         windows = []
+        platforms = self.define_platforms()
+        print (platforms)
         windows.append(WindowParameters(title="Raspberry Pi Gaming Station",
                                         options=["Start", "Controls", "Hotkeys"],
                                         current_id=1,
                                         previous_id=None))
-        #TODO: change the options to actual platforms
         # pick a platform window
         windows.append(WindowParameters(title="Platforms",
-                                        options=["GB", "GBC", "NES", "New Platform"],
+                                        options=platforms,
                                         current_id=2,
                                         previous_id=1))
         # TODO: change to actual game list
@@ -29,10 +43,10 @@ class WindowGenerator:
                                         options=["Mario","Pokemon","GTA"],
                                         current_id=3,
                                         previous_id=2))
-        # TODO: change the options to actual platform
         # select platform for controls window
+
         windows.append(WindowParameters(title="Pick a platform",
-                                        options=["GB", "GBC", "NES"],
+                                        options=platforms,
                                         current_id=4,
                                         previous_id=1))
         # TODO: change the title to Controls-$PLATFORM
