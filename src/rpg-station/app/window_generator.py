@@ -1,4 +1,7 @@
 import os
+import glob
+from .config_manager import ConfigManager
+from . import config
 
 # class for holding single window parameters
 class WindowParameters:
@@ -14,12 +17,32 @@ class WindowGenerator:
     """
     def define_platforms(self):
         platforms = []
-        ROOT_ROM_DIR = "../../rom"
-        print(os.walk(ROOT_ROM_DIR))
+        ROOT_ROM_DIR = config.RPG_ROOT + "/rom"
         for r,d,f in os.walk(ROOT_ROM_DIR):
             for _file in f:
                 platforms.append(r.split('/')[-1].upper())
         return sorted(list(set(platforms)))
+
+    """
+        Returns: games(List<string>) -
+            a list of games for the specified platform
+    """
+    def get_games(self, platform):
+        ROOT_ROM_DIR = config.RPG_ROOT + "/rom/"
+        game_dir = ROOT_ROM_DIR + platform.lower()
+        cm = ConfigManager()
+        cm.load_config()
+        ext = cm.get_platform_extensions(platform)
+        files_path = []
+        for e in ext:
+            flst = glob.glob(game_dir + '/*' + e)
+            files_path.extend(flst)
+        files = []
+        for f in files_path:
+            files.append(f.split('/')[-1])
+        return files
+
+
     """
         Returns: windows(List<WindowParameters>) -
             a list of windows defined in the application
@@ -67,6 +90,15 @@ class WindowGenerator:
                                         options=["Save"],
                                         current_id=7,
                                         previous_id=2))
+        curr_id = 7
+        # Generate platform specific windows
+        for plat in platforms:
+            games = self.get_games(plat)
+            curr_id += 1
+            windows.append(WindowParameters(title=plat,
+                                            options=games,
+                                            current_id=curr_id,
+                                            previous_id=2))
         return windows
 
 
