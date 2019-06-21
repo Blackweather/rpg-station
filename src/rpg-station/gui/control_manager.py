@@ -1,0 +1,3 @@
+class ControlManager:
+    pass
+
