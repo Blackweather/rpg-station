@@ -1,7 +1,9 @@
-from config_manager import ConfigManager
+from . config_manager import ConfigManager
+from . import config
 import os
 import json
 import ntpath
+import shutil
 from shutil import copyfile
 
 # this class takes care of sorting the ROMs
@@ -48,7 +50,7 @@ class GameManager:
 
     def load_from_dir(self, directory):
         matched_files = self.match_from_dir(directory)
-        ROOT_ROM_DIR = "../../../rom/"
+        ROOT_ROM_DIR = config.RPG_ROOT + "/rom/"
         for platform in matched_files.keys():
             platform_path = os.path.join(ROOT_ROM_DIR, platform.lower())
             # check if all platform directories exist
@@ -75,6 +77,9 @@ class GameManager:
             platform_path = os.path.join(ROOT_ROM_DIR, platforms.lower())
             for files in matched_files[platforms]:
                 filename = ntpath.basename(files)
-                copyfile(files, os.path.join(platform_path, filename))
+                try:
+                    copyfile(files, os.path.join(platform_path, filename))
+                except shutil.SameFileError:
+                    pass
         #TODO: show a messagebox - use Window class?
         print("Files imported to Raspberry Pi Gaming Station")
