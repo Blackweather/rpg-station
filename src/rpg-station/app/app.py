@@ -1,5 +1,7 @@
 from gui.window import Window
 from .window_generator import WindowGenerator
+from .game_runner import GameRunner
+
 import pygame
 
 class App:
@@ -21,6 +23,10 @@ class App:
                 current_params = window_generator.get_windowparameters_by_id(windows, current_params.previous_id)
                 if current_params == None:
                     break
+            elif '.' in result:
+                #run a game
+                gm = GameRunner(platform=current_params.title, file_name=result)
+                gm.run()
             else:
                 if result == "Start":
                     result = "Platforms"
