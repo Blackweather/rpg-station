@@ -24,5 +24,16 @@ class ConfigManager:
         plats = self.get_platform_shorts_with_ext()
         return plats[platform]
 
+    def get_platform_shorts_with_core(self):
+        # returns a dictionary
+        # platformshort : core
+        result = {}
+        for p in self.platforms:
+            result[p["platformShort"]] = p["coreName"]
+        return result
+
+    def get_platform_core(self, platform):
+        plats = self.get_platform_shorts_with_core()
+        return plats[platform]
     #TODO: create methods for changing/adding platforms and overwriting the config
 
