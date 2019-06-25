@@ -108,3 +108,5 @@ venv.bak/
 /.idea/modules.xml
 /.idea/rpg-station.iml
 /.idea/workspace.xml
+
+rom/nes/
