@@ -15,7 +15,7 @@
             "displayImage": "../images/snes.jpg",
             "coreName": "snes9x",
             "extensions": [
-                ".sfc"
+                ".smc"
             ]
         },
 	{
@@ -25,6 +25,15 @@
 	    "coreName": "gambatte",
 	    "extensions": [
 		".gb"
+	    ]
+	},
+	{
+	    "platformName": "Nintendo Game Boy Advance",
+	    "platformShort": "GBA",
+	    "displayImage": "../images/placeholder.jpg",
+	    "coreName": "mgba",
+	    "extensions": [
+		".gba"
 	    ]
 	}
     ]

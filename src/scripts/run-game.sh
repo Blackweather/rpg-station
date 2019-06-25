@@ -8,4 +8,4 @@ libretro_path='/usr/lib/x86_64-linux-gnu/libretro/'
 core_extension='_libretro.so'
 core_path="$libretro_path$1$core_extension"
 
-retroarch -f -L $core_path $2
+retroarch -f -L $core_path $"$2"
