@@ -40,7 +40,7 @@ class WindowGenerator:
         files = []
         for f in files_path:
             files.append(f.split('/')[-1])
-        return files
+        return sorted(files)
 
 
     """
