@@ -11,12 +11,13 @@ class Window:
 
     def init_pygame(self):
         # Colors
-        self.white = (255, 255, 255)
-        self.black = (0, 0, 0)
+        self.white = (238, 238, 238)
+        self.black = (17, 17, 17)
         self.gray = (50, 50, 50)
         self.red = (255, 0, 0)
+        self.dark_red = (175, 78, 83)
         self.green = (0, 255, 0)
-        self.blue = (173, 216, 230)  # light blue actually
+        self.blue = (69, 166, 185)  # light blue actually
         self.yellow = (255, 255, 0)
         # Fonts
         self.font = "./gui/font/OpenSans-Regular.ttf"
@@ -108,7 +109,7 @@ class Window:
 
         # pick the title
         # check width for x coords
-        text_title = self.text_format(self.title, self.font, font_sizes[0], self.yellow)
+        text_title = self.text_format(self.title, self.font, font_sizes[0], self.dark_red)
         title_w = text_title.get_rect().width
         title_x = (w - title_w) / 2
         coords.append((title_x, title_y))
@@ -168,7 +169,7 @@ class Window:
             self.screen.fill(self.blue)
             title_font_size, opt_font_size = self.get_font_size()
             # text formatting
-            title = self.text_format(self.title, self.font, title_font_size, self.yellow)
+            title = self.text_format(self.title, self.font, title_font_size, self.dark_red)
 
             # options
             options_formatted = []
