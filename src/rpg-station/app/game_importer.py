@@ -1,11 +1,20 @@
 from tkinter import Tk
-from tkinter.filedialog import askdirectory
+from tkinter import filedialog
 from . import game_manager
 
 class GameImporter:
-    def run(self):
+    def import_from_picked_dir(self):
         Tk().withdraw()
-        directory = askdirectory()
+        directory = filedialog.askdirectory()
         if directory != ():
             gm = game_manager.GameManager()
             gm.load_from_dir(directory)
+
+    def import_from_picked_file(self):
+        Tk().withdraw()
+        filename = filedialog.askopenfile()
+        if filename != None:
+            gm = game_manager.GameManager()
+
+    def import_from_file(self, filename):
+        pass

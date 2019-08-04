@@ -1,6 +1,7 @@
 from gui.window import Window
 from .window_generator import WindowGenerator
 from .game_runner import GameRunner
+import ctypes
 
 import pygame
 
@@ -15,7 +16,7 @@ class App:
         # disable mouse cursor
         pygame.mouse.set_visible(0)
         # create a pygame default window
-        screen =pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+        screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         while True:
             current_window = Window(screen=screen, title=current_params.title, choices=current_params.options, controls=[""])
             result = current_window.display()

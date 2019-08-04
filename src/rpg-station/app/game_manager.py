@@ -41,7 +41,7 @@ class GameManager:
         for _file in files:
             # check if matched with extension
             matched_platform = self.match_extension(platforms, _file)
-            if matched_platform != None :
+            if matched_platform != None:
                 # if matched add to list in dict (platform:files)
                 if matched_platform.lower() not in matched_files:
                     matched_files[matched_platform] = []
@@ -83,3 +83,31 @@ class GameManager:
                     pass
         #TODO: show a messagebox - use Window class?
         print("Files imported to Raspberry Pi Gaming Station")
+
+    def load_from_file(self, filename):
+        platforms = self.get_extensions()
+        matched_platform = self.match_extension(platforms, filename)
+        if matched_platform == None:
+            print("Failed to import " + filename + ", no matching platform configured")
+            exit(-1)
+        ROOT_ROM_DIR = config.RPG_ROOT + "/rom/"
+        platform_path = os.path.join(ROOT_ROM_DIR, matched_platform.lower())
+        # check if platform directory exists
+        if not os.path.exists(platform_path):
+            print("Created directory: " + platform_path)
+            # create missing directory
+            os.makedirs(platform_path)
+        else:
+            # check for duplicate
+            fname = ntpath.basename(filename)
+            existing_path = os.path.join(platform_path, fname)
+            if os.path.isfile(existing_path):
+                print("Failed to import " + filename + ", file already exists")
+                exit(-1)
+        # copy the file
+        fname = ntpath.basename(filename)
+        try:
+            copyfile(filename, os.path.join(platform_path, fname))
+        except shutil.SameFileError:
+            pass
+        print("File imported to Raspberry Pi Gaming Station")
