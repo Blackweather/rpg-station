@@ -12,9 +12,10 @@ class GameImporter:
 
     def import_from_picked_file(self):
         Tk().withdraw()
-        filename = filedialog.askopenfile()
+        filename = filedialog.askopenfilename()
         if filename != None:
             gm = game_manager.GameManager()
+            gm.load_from_file(filename)
 
     def import_from_file(self, filename):
         pass
