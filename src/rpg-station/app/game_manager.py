@@ -80,7 +80,7 @@ class GameManager:
                 try:
                     copyfile(files, os.path.join(platform_path, filename))
                 except shutil.SameFileError:
-                    pass
+                    print("Exception: shutil.SameFileError when trying to copy a file")
         #TODO: show a messagebox - use Window class?
         print("Files imported to Raspberry Pi Gaming Station")
 
