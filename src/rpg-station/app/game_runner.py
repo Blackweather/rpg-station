@@ -7,6 +7,7 @@ import os
 # this class takes care of starting up a ROM
 class GameRunner:
     def __init__(self, platform, file_name):
+        #TODO: use this to get the config file
         self.platform = platform
         self.file_name = file_name
         self.RUN_SCRIPT_PATH = config.RPG_ROOT + "/src/scripts/"

@@ -2,10 +2,23 @@
 # this scripts run the specified rom file
 # with a specified libretro core
 # example usage: ./run-game.sh gambatte ../../rom/gb/adjustris.gb
+# TODO: support a custom config by adding in the platform as an additional parameter
 
 # TODO: change the path to standard path on raspbian
 libretro_path='/usr/lib/x86_64-linux-gnu/libretro/'
 core_extension='_libretro.so'
-core_path="$libretro_path$1$core_extension"
+if [[ $# -gt 0 ]] ; then
+	core_path="$libretro_path$1$core_extension"
+else
+	echo "Wrong number of arguments provided"
+	exit 1
+fi
 
-retroarch -f -L $core_path $"$2"
+if [[ $# -eq 2  ]] ; then
+	retroarch -f -L $core_path $"$2"
+elif [[ $# -eq 3 ]] ; then
+	retroarch -f -L $core_path -c $"$3" $"$2"
+else
+	echo "Wrong number of arguments provided"
+	exit 1
+fi
