@@ -6,16 +6,19 @@ import os
 class GameImporter:
     def import_from_picked_dir(self):
         Tk().withdraw()
-        directory = filedialog.askdirectory()
+        home = os.path.expanduser("~")
+        directory = filedialog.askdirectory(initialdir=home)
         if directory != ():
             gm = game_manager.GameManager()
             gm.load_from_dir(directory)
 
     def import_from_picked_file(self):
-        #TODO: fix logs here?
         Tk().withdraw()
-        filename = filedialog.askopenfilename()
-        if filename != None:
+        home = os.path.expanduser("~")
+        filename = filedialog.askopenfilename(initialdir=home)
+        if filename != ():
+            print(filename)
+            print("Trying to import " + filename)
             gm = game_manager.GameManager()
             gm.load_from_file(filename)
         else:

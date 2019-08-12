@@ -22,7 +22,7 @@ elif [[ "$#" -eq 1 ]]; then
 	elif [[ "$1" == "-f" ]]; then
 		echo "Pick a file to import"
 		cd src/rpg-station
-		python3 importer.py -f >> logfile.log
+		python3 importer.py -f
 	else
 		show_warning
 	fi
