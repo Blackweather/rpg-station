@@ -49,6 +49,7 @@ class WindowGenerator:
     """
     def define_windows(self):
         windows = []
+        TRAILING_SPACE = " "
         platforms = self.define_platforms()
         print (platforms)
         windows.append(WindowParameters(title="Raspberry Pi Gaming Station",
@@ -67,7 +68,6 @@ class WindowGenerator:
                                         current_id=3,
                                         previous_id=2))
         # select platform for controls window
-
         windows.append(WindowParameters(title="Pick a platform",
                                         options=platforms,
                                         current_id=4,
@@ -75,7 +75,7 @@ class WindowGenerator:
         # TODO: change the title to Controls-$PLATFORM
         # window for setting up controls for specific platform
         windows.append(WindowParameters(title="Controls",
-                                        options=["Save"],
+                                        options=list(map(lambda x: x + TRAILING_SPACE, platforms)),
                                         current_id=5,
                                         previous_id=1))
         # TODO: fill this window with options
@@ -89,9 +89,9 @@ class WindowGenerator:
         windows.append(WindowParameters(title="New Platform",
                                         options=["Save"],
                                         current_id=7,
-                                        previous_id=2))
+                                        previous_id=1))
         curr_id = 7
-        # Generate platform specific windows
+        # Generate platform specific windows for games
         for plat in platforms:
             games = self.get_games(plat)
             curr_id += 1
@@ -99,6 +99,15 @@ class WindowGenerator:
                                             options=games,
                                             current_id=curr_id,
                                             previous_id=2))
+            # Platform control configuration window
+            # TODO: create a function to get configurable controls for a specific platform
+            #controls = self.get_control_options(plat)
+            controls = ["a", "b"]
+            # workaround for windows
+            windows.append(WindowParameters(title=plat + TRAILING_SPACE,
+                                            options=controls,
+                                            current_id=curr_id + len(platforms),
+                                            previous_id=5))
         return windows
 
 

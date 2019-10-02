@@ -10,6 +10,7 @@ class App:
         print("Initialized the application @app class")
         window_generator = WindowGenerator()
         windows = window_generator.define_windows()
+        # set main menu as starting window
         current_params = window_generator.get_windowparameters_by_title(windows, "Raspberry Pi Gaming Station")
         # initalize pygame submodules
         pygame.init()

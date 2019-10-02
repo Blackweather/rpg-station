@@ -73,7 +73,7 @@ class Window:
         font_sizes(tuple<int, int>): font sizes of title and options
         """
         TESTED_RESOLUTION = 1920 * 1080
-        TESTED_FONTS = (100, 70)
+        TESTED_FONTS = (200, 70)
         w, h = pygame.display.get_surface().get_size()
         current_resolution = w * h
         if current_resolution == TESTED_RESOLUTION:
