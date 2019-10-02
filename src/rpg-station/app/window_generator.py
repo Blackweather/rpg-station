@@ -1,6 +1,7 @@
 import os
 import glob
 from .config_manager import ConfigManager
+from .control_manager import ControlManager
 from . import config
 
 # class for holding single window parameters
@@ -102,7 +103,8 @@ class WindowGenerator:
             # Platform control configuration window
             # TODO: create a function to get configurable controls for a specific platform
             #controls = self.get_control_options(plat)
-            controls = ["a", "b"]
+            cm = ControlManager()
+            controls = cm.get_configurable_inputs()
             # workaround for windows
             windows.append(WindowParameters(title=plat + TRAILING_SPACE,
                                             options=controls,
