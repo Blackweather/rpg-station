@@ -39,7 +39,8 @@ class ControlManager:
         return result
 
     def get_configurable_inputs(self):
-        return list(self.get_configurable_inputs_with_values().keys())
+        # TODO: keep the order from template
+        return sorted(list(self.get_configurable_inputs_with_values().keys()))
 
     def get_input_value(self, input):
         return self.load_template()[input]

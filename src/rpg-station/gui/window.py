@@ -38,7 +38,7 @@ class Window:
         self.controls = controls
         if len(self.choices) > 0 and len(self.controls) > 0:
             self.init_pygame()
-            print("Initialized pygame in Window with title: " + self.title)
+            #print("Initialized pygame in Window with title: " + self.title)
         else:
             print("Bad arguments in Window constructor")
 
@@ -73,67 +73,83 @@ class Window:
         font_sizes(tuple<int, int>): font sizes of title and options
         """
         TESTED_RESOLUTION = 1920 * 1080
-        TESTED_FONTS = (200, 70)
+        DEFAULT_FONTS = (100, 70)
         w, h = pygame.display.get_surface().get_size()
         current_resolution = w * h
         if current_resolution == TESTED_RESOLUTION:
-            return TESTED_FONTS
+            return DEFAULT_FONTS
 
         # else calculate the fonts
-        title_font = int((current_resolution / TESTED_RESOLUTION) * TESTED_FONTS[0])
-        opt_font = int((current_resolution / TESTED_RESOLUTION) * TESTED_FONTS[1])
-
+        title_font = int((current_resolution / TESTED_RESOLUTION) * DEFAULT_FONTS[0])
+        opt_font = int((current_resolution / TESTED_RESOLUTION) * DEFAULT_FONTS[1])
         return (title_font, opt_font)
 
     def get_coord_list(self, font_sizes):
         # scaling parameters
         TESTED_RESOLUTION = 1920 * 1080
-        TITLE_Y = 80
-        # y of first option (not centered)
-        OPT1_Y = 300
-        # gap between two options
-        GAP = 80
+        # minimum gap between the title and options/top of screen
+        GAP = 60
+        TITLE_Y = GAP
+
+        # scale the parameters based on current resolution
         w, h = pygame.display.get_surface().get_size()
         current_resolution = w * h
         if current_resolution == TESTED_RESOLUTION:
             title_y = TITLE_Y
-            opt1_y = 300
-            gap = GAP
+            gap_title = GAP
         else:
             scale = (current_resolution / TESTED_RESOLUTION)
             title_y = scale * TITLE_Y
-            opt1_y = scale * OPT1_Y
-            gap = scale * GAP
+            gap_title = scale * GAP
 
         coords = []
-
-        # pick the title
-        # check width for x coords
+        # determine title coordinates
         text_title = self.text_format(self.title, self.font, font_sizes[0], self.dark_red)
         title_w = text_title.get_rect().width
+        title_h = text_title.get_rect().height
         title_x = (w - title_w) / 2
         coords.append((title_x, title_y))
 
-        # get height of all options
-        sample = self.text_format("X", self.font, font_sizes[1], self.black)
-        opt_text_height = sample.get_rect().height
-        options_height = len(self.choices) * opt_text_height + \
-                         (len(self.choices) - 1) * gap
+        # determine the position of the first option
+        opt1_y = title_y + title_h + gap_title
+        options_height = 0
+        single_opt_height = 0
+        gap = 0
+        # scale the font and gaps between the options to fit
+        while True:
+            sample = self.text_format("Xp", self.font, font_sizes[1], self.black)
+            # height of single option
+            single_opt_height = sample.get_rect().height
+            # number of options
+            opt_num = len(self.choices)
+            # space between y coordinate of two options
+            gap = font_sizes[1] + 5
+            # height of the option block
+            options_height = single_opt_height + ((opt_num - 1) * gap)
+            # available space for the option block
+            space_for_opt = h - (2 * GAP) - title_h
+
+            if options_height <= space_for_opt and options_height != 0:
+                break
+            # lower the font size if does not fit
+            font_sizes[1] = font_sizes[1] - 1
+        
         choice_num = 0
         # iterate through options
         for opt in self.choices:
             # check width for x coord
             choice_num += 1
             text_opt = self.text_format(opt, self.font, font_sizes[1], self.black)
+            # determine the x coordinate of option
             text_w = text_opt.get_rect().width
             text_x = (w - text_w) / 2
 
-            # calculate the y coord for current option
-            opt1_centered_y = opt1_y + (h - opt1_y - options_height) / 2
+            # determine the y coordinate of option
+            opt1_centered_y = opt1_y + ((h - opt1_y - options_height - gap_title) / 2)
             text_y = opt1_centered_y + (choice_num - 1) * gap
             coords.append((text_x, text_y))
 
-        return coords
+        return coords, font_sizes[1]
 
     def display(self):
         """
@@ -156,21 +172,23 @@ class Window:
                         selected_index = self.switch_selection(selected_index, len(self.choices), 1)
                         selected = self.choices[selected_index]
                     elif event.key == pygame.K_RETURN:
-                        if selected == "exit":
-                            print("Going back from the Window " + self.title)
+                        if selected == "Exit":
+                            #print("Going back from the Window " + self.title)
                             self.destroy()
-                            return "exit"
+                            return "Exit"
                         else:
-                            print("Selection: " + selected)
+                            #print("Selection: " + selected)
                             self.destroy()
                             return selected
 
             # Window display
             self.screen.fill(self.blue)
-            title_font_size, opt_font_size = self.get_font_size()
+            title_font_size = self.get_font_size()[0]
+            
             # text formatting
             title = self.text_format(self.title, self.font, title_font_size, self.dark_red)
 
+            coords, opt_font_size = self.get_coord_list(font_sizes=list(self.get_font_size()))
             # options
             options_formatted = []
             for opt in self.choices:
@@ -181,7 +199,6 @@ class Window:
                 options_formatted.append(text_formatted)
 
             # get the list of coordinates
-            coords = self.get_coord_list(font_sizes=(title_font_size, opt_font_size))
             options_with_coords = list(zip(options_formatted, coords[1:]))
 
             # insert title
@@ -189,7 +206,7 @@ class Window:
 
             # insert options
             for opt in options_with_coords:
-                self.screen.blit(opt[0], opt[1])
+                self.screen.blit(opt[0], (opt[1][0],opt[1][1]))
 
             pygame.display.update()
             self.clock.tick(self.FPS)
@@ -197,4 +214,4 @@ class Window:
     def destroy(self):
         # Quit pygame without quitting application
         self.screen.fill(self.blue)
-        print("Exited Window with title: " + self.title)
+        #print("Exited Window with title: " + self.title)
