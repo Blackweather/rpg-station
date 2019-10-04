@@ -6,11 +6,12 @@ from . import config
 
 # class for holding single window parameters
 class WindowParameters:
-    def __init__(self, title, options, current_id, previous_id):
+    def __init__(self, title, options, current_id, previous_id, extend_window=False):
         self.title = title
         self.options = options
         self.current_id = current_id
         self.previous_id = previous_id
+        self.extend_window = extend_window
 class WindowGenerator:
     """
         Returns: platforms(List<String>) -
@@ -62,19 +63,12 @@ class WindowGenerator:
                                         options=platforms,
                                         current_id=2,
                                         previous_id=1))
-        # TODO: change to actual game list
-        # pick a game window
-        windows.append(WindowParameters(title="Games",
-                                        options=["Mario","Pokemon","GTA"],
-                                        current_id=3,
-                                        previous_id=2))
         # select platform for controls window
         windows.append(WindowParameters(title="Pick a platform",
                                         options=platforms,
                                         current_id=4,
                                         previous_id=1))
-        # TODO: change the title to Controls-$PLATFORM
-        # window for setting up controls for specific platform
+        # window for picking a platform to setup controls
         windows.append(WindowParameters(title="Controls",
                                         options=list(map(lambda x: x + TRAILING_SPACE, platforms)),
                                         current_id=5,
@@ -103,13 +97,14 @@ class WindowGenerator:
             # Platform control configuration window
             # TODO: create a function to get configurable controls for a specific platform
             #controls = self.get_control_options(plat)
-            cm = ControlManager()
+            cm = ControlManager(plat.lower())
             controls = cm.get_configurable_inputs()
-            # workaround for windows
+            # workaround for windows to not be confused with platforms for games
             windows.append(WindowParameters(title=plat + TRAILING_SPACE,
                                             options=controls,
                                             current_id=curr_id + len(platforms),
-                                            previous_id=5))
+                                            previous_id=5,
+                                            extend_window=True))
         return windows
 
 
@@ -119,7 +114,8 @@ class WindowGenerator:
                 return WindowParameters(window_parameters.title,
                                        window_parameters.options,
                                        window_parameters.current_id,
-                                       window_parameters.previous_id)
+                                       window_parameters.previous_id,
+                                       window_parameters.extend_window)
         return None
 
     def get_windowparameters_by_id(self, windows, current_id):
@@ -128,5 +124,6 @@ class WindowGenerator:
                 return WindowParameters(window_parameters.title,
                                         window_parameters.options,
                                         window_parameters.current_id,
-                                        window_parameters.previous_id)
+                                        window_parameters.previous_id,
+                                        window_parameters.extend_window)
         return None

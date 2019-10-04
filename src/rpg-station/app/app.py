@@ -10,6 +10,8 @@ class App:
         print("Initialized the application @app class")
         window_generator = WindowGenerator()
         windows = window_generator.define_windows()
+        # for window in windows:
+        #     print(window.title, window.extend_window)
         # set main menu as starting window
         current_params = window_generator.get_windowparameters_by_title(windows, "Raspberry Pi Gaming Station")
         # initalize pygame submodules
@@ -19,7 +21,11 @@ class App:
         # create a pygame default window
         screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         while True:
-            current_window = Window(screen=screen, title=current_params.title, choices=current_params.options, controls=[""])
+            current_window = Window(screen=screen, 
+                                    title=current_params.title, 
+                                    choices=current_params.options, 
+                                    controls=[""], 
+                                    extend_window=current_params.extend_window)
             result = current_window.display()
             if result == "Exit":
                 current_params = window_generator.get_windowparameters_by_id(windows, current_params.previous_id)

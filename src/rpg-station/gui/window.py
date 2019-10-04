@@ -30,12 +30,31 @@ class Window:
         new_font = pygame.font.Font(text_font, text_size)
         new_text = new_font.render(message, 0, text_color)
         return new_text
+    """
+    Description: class constructor for standarized rpg-station window
 
-    def __init__(self, screen, title, choices, controls):
+    Parameters:
+    screen: pygame screen
+    title(string): title of the window
+    choices(list<string>): options available to choose in a window
+    controls(list<?>): controls used to move through the window - not yet implemented
+    extend_window(bool): flag to extend the window - half of the options will be used 
+    as values and moved to the right side
+    """
+    def __init__(self, screen, title, choices, controls, extend_window=False):
         self.screen = screen
         self.title = title
-        self.choices = [*choices, "Exit"]
+        if not extend_window:
+            self.choices = [*choices, "Exit"]
+        else:
+            # split the choices to choices and values
+            tmp = choices[:len(choices)//2]
+            self.values = choices[len(choices)//2:]
+            self.choices = [*tmp, "Exit"]
+            
         self.controls = controls
+        # parameter for extended window - used for controls and hotkeys windows
+        self.extend_window = extend_window
         if len(self.choices) > 0 and len(self.controls) > 0:
             self.init_pygame()
             #print("Initialized pygame in Window with title: " + self.title)
@@ -142,12 +161,39 @@ class Window:
             text_opt = self.text_format(opt, self.font, font_sizes[1], self.black)
             # determine the x coordinate of option
             text_w = text_opt.get_rect().width
-            text_x = (w - text_w) / 2
+            # check if extended here
+            text_x = 0
+            if not self.extend_window:
+                text_x = (w - text_w) / 2
+            else:
+                text_x = ((w / 2) - text_w) / 2
 
             # determine the y coordinate of option
             opt1_centered_y = opt1_y + ((h - opt1_y - options_height - gap_title) / 2)
             text_y = opt1_centered_y + (choice_num - 1) * gap
             coords.append((text_x, text_y))
+
+        choice_num = 0
+        # iterate through values if extended
+        if self.extend_window:
+            # print("Choices: ", len(self.choices))
+            # print("Values: ", len(self.values))
+            for value in self.values:
+                opt = str(value.replace('""', ''))
+                #print(opt)
+                # check width for x coord
+                choice_num += 1
+                text_opt = self.text_format(opt, self.font, font_sizes[1], self.black)
+                print(text_opt)
+                # determine the x coordinate of option
+                text_w = text_opt.get_rect().width
+                # check if extended here
+                text_x = (((w / 2) - text_w) / 2) + w / 2
+
+                # determine the y coordinate of option
+                opt1_centered_y = opt1_y + ((h - opt1_y - options_height - gap_title) / 2)
+                text_y = opt1_centered_y + (choice_num - 1) * gap
+                coords.append((text_x, text_y))
 
         return coords, font_sizes[1]
 
@@ -197,6 +243,11 @@ class Window:
                 else:
                     text_formatted = self.text_format(opt, self.font, opt_font_size, self.black)
                 options_formatted.append(text_formatted)
+
+            if self.extend_window:
+                for val in self.values:
+                    text_formatted = self.text_format(val, self.font, opt_font_size, self.dark_red)
+                    options_formatted.append(text_formatted)
 
             # get the list of coordinates
             options_with_coords = list(zip(options_formatted, coords[1:]))
