@@ -1,6 +1,7 @@
 from . import config
 import os.path
 import shutil
+from collections import OrderedDict
 
 class ControlManager:
     # TODO: this class should use the template to get option names
@@ -29,14 +30,14 @@ class ControlManager:
 
         platform_config_content = [x.strip().replace(' ', '') for x in platform_config_content]
 
-        platform_dict = {}
+        platform_dict = OrderedDict()
         for line in platform_config_content:
             if '=' in line:
                 config_value = line.split('=')
                 platform_dict[config_value[0]] = config_value[1]
         
         # transform to dictionary
-        result_dict = {}
+        result_dict = OrderedDict()
         for line in template_content:
             if line[0] != '#' and "joypad_index" not in line:
                 config_value = line.split('=')
@@ -48,14 +49,14 @@ class ControlManager:
         loaded_options = self.load_template()
         template_options = list(loaded_options.keys())
         # add values to filtered options
-        result = {}
+        result = OrderedDict()
         for option in template_options:
             result[option] = loaded_options[option]
         return result
 
     def get_configurable_inputs(self):
-        # TODO: keep the order from template
-        return sorted(list(self.get_configurable_inputs_with_values().keys()))
+        inputs_with_values = self.get_configurable_inputs_with_values()
+        return list(inputs_with_values.keys()) + list(inputs_with_values.values())
 
     def get_input_value(self, input):
         return self.load_template()[input]
