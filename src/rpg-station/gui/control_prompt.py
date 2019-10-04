@@ -6,7 +6,6 @@ class ControlPrompt(window.Window):
         self.screen = screen
         self.control_to_change = control_to_change
         self.PROMPT_TEXT = "Press any button to set the control..."
-        print("Control:", control_to_change)
 
         super().init_pygame()
 
