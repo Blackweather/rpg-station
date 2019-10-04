@@ -109,4 +109,12 @@ venv.bak/
 /.idea/rpg-station.iml
 /.idea/workspace.xml
 
-rom/nes/
+# directories used for managing files working with the application
+rom/*
+!rom/gb/adjustris.gb
+
+src/config/controls/*
+!src/config/coontrols/template/
+
+# SonarQube stuff
+.scannerwork

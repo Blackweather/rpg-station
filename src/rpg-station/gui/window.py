@@ -1,6 +1,5 @@
 import pygame
 
-
 class Window:
     """
     Parameters:
@@ -24,7 +23,7 @@ class Window:
 
         # Game Framerate
         self.clock = pygame.time.Clock()
-        self.FPS = 30
+        self.FPS = 60
 
     def text_format(self, message, text_font, text_size, text_color):
         new_font = pygame.font.Font(text_font, text_size)
@@ -184,7 +183,6 @@ class Window:
                 # check width for x coord
                 choice_num += 1
                 text_opt = self.text_format(opt, self.font, font_sizes[1], self.black)
-                print(text_opt)
                 # determine the x coordinate of option
                 text_w = text_opt.get_rect().width
                 # check if extended here
@@ -257,7 +255,7 @@ class Window:
 
             # insert options
             for opt in options_with_coords:
-                self.screen.blit(opt[0], (opt[1][0],opt[1][1]))
+                self.screen.blit(opt[0], opt[1])
 
             pygame.display.update()
             self.clock.tick(self.FPS)

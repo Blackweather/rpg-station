@@ -99,7 +99,8 @@ class WindowGenerator:
             #controls = self.get_control_options(plat)
             cm = ControlManager(plat.lower())
             controls = cm.get_configurable_inputs()
-            # workaround for windows to not be confused with platforms for games
+            # TRAILING_SPACE - workaround for windows to not be confused with platforms for games
+            # TODO: add refresh of control values
             windows.append(WindowParameters(title=plat + TRAILING_SPACE,
                                             options=controls,
                                             current_id=curr_id + len(platforms),
@@ -127,3 +128,5 @@ class WindowGenerator:
                                         window_parameters.previous_id,
                                         window_parameters.extend_window)
         return None
+
+    
