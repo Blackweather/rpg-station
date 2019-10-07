@@ -14,8 +14,6 @@ class App:
         print("Initialized the application @app class")
         window_generator = WindowGenerator()
         windows = window_generator.define_windows()
-        # for window in windows:
-        #     print(window.title, window.extend_window)
         # set main menu as starting window
         current_params = window_generator.get_windowparameters_by_title(windows, "Raspberry Pi Gaming Station")
         # initalize pygame submodules
@@ -48,6 +46,8 @@ class App:
                     current_params = new_params
                 elif current_params.extend_window:
                     # show a new window to prompt for controls
+                    # TODO: refresh the list of controls
+                    current_params.refresh_options(platform=current_params.title.replace(' ', '').lower())
                     cw = ControlPrompt(screen=screen,
                                         control_to_change=result)
                     cw.display()
@@ -59,6 +59,8 @@ class App:
                     # run ControlManager to configure the cfg file
                     # destroy the screen
                     cw.destroy()
+                    # TODO: refresh the list of controls
+                    current_params.refresh_options(platform=current_params.title.replace(' ', '').lower())
 
         pygame.display.quit()
         pygame.quit()

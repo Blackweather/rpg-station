@@ -12,6 +12,12 @@ class WindowParameters:
         self.current_id = current_id
         self.previous_id = previous_id
         self.extend_window = extend_window
+
+    def refresh_options(self, platform):
+        cm = ControlManager(platform.lower())
+        controls = cm.get_configurable_inputs()
+        self.options = controls
+
 class WindowGenerator:
     """
         Returns: platforms(List<String>) -
@@ -107,7 +113,6 @@ class WindowGenerator:
                                             previous_id=5,
                                             extend_window=True))
         return windows
-
 
     def get_windowparameters_by_title(self, windows, title):
         for window_parameters in windows:
