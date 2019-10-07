@@ -7,7 +7,6 @@ import os
 # this class takes care of starting up a ROM
 class GameRunner:
     def __init__(self, platform, file_name):
-        #TODO: use this to get the config file
         self.platform = platform
         self.file_name = file_name
         self.RUN_SCRIPT_PATH = config.RPG_ROOT + "/src/scripts/"
@@ -23,8 +22,10 @@ class GameRunner:
 
     def run_script(self, path, core):
         print("Running command:")
-        print("/bin/bash -c " + self.RUN_SCRIPT_PATH + self.RUN_SCRIPT_NAME + " " + core + " \"" + path + "\"")
-        arguments = self.RUN_SCRIPT_PATH + self.RUN_SCRIPT_NAME + " " + core + " \"" + path + "\""
+        config_path = config.RPG_ROOT + "/src/config/controls/" + self.platform.lower() + "/config.cfg"
+        print("/bin/bash -c " + self.RUN_SCRIPT_PATH + self.RUN_SCRIPT_NAME + " " + core + " \"" + path + "\"" +
+            " \"" + config_path + "\"")
+        arguments = self.RUN_SCRIPT_PATH + self.RUN_SCRIPT_NAME + " " + core + " \"" + path + "\"" + " \"" + config_path + "\""
         subprocess.Popen(['/bin/bash', '-c', arguments])
 
     def run(self):

@@ -1,11 +1,13 @@
 from . import config
+from .control_detector import Control, ControlType
+
 import os.path
 import shutil
+import fileinput
+import re
 from collections import OrderedDict
 
 class ControlManager:
-    # TODO: this class should use the template to get option names
-    # and actual config for option values
     def __init__(self, platform):
         self._platform = platform
 
@@ -60,3 +62,71 @@ class ControlManager:
 
     def get_input_value(self, input):
         return self.load_template()[input]
+
+    def convert_hat(self, control):
+        direction = ""
+        if control.value == (0, -1):
+            direction = "down"
+        elif control.value == (0, 1):
+            direction = "up"
+        elif control.value == (-1, 0):
+            direction = "left"
+        elif control.value == (1, 0):
+            direction = "right"
+        
+        result = "h" + str(control.number) + direction
+
+        return result
+
+    def convert_axis(self, control):
+        sign = ""
+        if control.value < 0:
+            sign = "-"
+        else:
+            sign = "+"
+
+        result = sign + str(control.number)
+        return result
+
+    # converts pygame generated controls to RetroArch convention compliant controls
+    def convert_control_value(self, control):
+        if control.control_type == ControlType.KEYBOARD:
+            return str(control.value)
+        elif control.control_type == ControlType.BUTTON:
+            return str(control.value)
+        elif control.control_type == ControlType.HAT:
+            return self.convert_hat(control)
+        elif control.control_type == ControlType.AXIS:
+            return self.convert_axis(control)
+        else:
+            return None
+
+    def is_compliant(self, control, field):
+        if "btn" in field and control.control_type not in [ControlType.BUTTON, ControlType.HAT]:
+            print("Cannot assign anything else than a button/hat to that field")
+            return False
+        if "axis" in field and control.control_type != ControlType.AXIS:
+            print("Cannot assign anything else than an axis to that field")
+        return True
+
+    def update_value_in_file(self, field, value):
+        platform_config_path = config.RPG_ROOT + "/src/config/controls/" + self._platform + "/config.cfg"
+
+        search = str(field) + " = .*"
+        replace = str(field) + " = \"" + str(value) + "\""
+
+        for line in fileinput.input(platform_config_path, inplace=True):
+            result = re.sub(search, replace, line.rstrip())
+            print(result)
+        
+
+    # updates the value of a single control in the .cfg file of a specific platform
+    def update_control_value(self, field, control):
+        if self.is_compliant(control, field):
+            # convert the control to use the RetroArch specific values
+            converted = self.convert_control_value(control)
+            if converted == None:
+                print('Something went wrong with your controls')
+                return
+            # override the value in .conf file of the platform
+            self.update_value_in_file(field, converted)

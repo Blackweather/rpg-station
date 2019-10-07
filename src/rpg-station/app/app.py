@@ -2,10 +2,12 @@ from gui.window import Window
 from gui.control_prompt import ControlPrompt
 from .window_generator import WindowGenerator
 from .game_runner import GameRunner
-import ctypes
-import time
+from .control_detector import ControlDetector, Control, ControlType
+from .control_manager import ControlManager
 
+import ctypes
 import pygame
+import time
 
 class App:
     def run(self):
@@ -34,7 +36,7 @@ class App:
                 if current_params == None:
                     break
             elif '.' in result:
-                #run a game
+                # run a game
                 gm = GameRunner(platform=current_params.title, file_name=result)
                 gm.run()
             else:
@@ -49,8 +51,12 @@ class App:
                     cw = ControlPrompt(screen=screen,
                                         control_to_change=result)
                     cw.display()
-                    # run the controlmanager to get input and setup
-                    time.sleep(10)
+                    # detect pressed control
+                    control = ControlDetector.detect_control()
+                    # platform is current window title minus the trailing space
+                    cm = ControlManager(platform=current_params.title.replace(' ', '').lower())
+                    cm.update_control_value(result, control)
+                    # run ControlManager to configure the cfg file
                     # destroy the screen
                     cw.destroy()
 
