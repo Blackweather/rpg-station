@@ -1,6 +1,7 @@
 from . import config
 from .control_detector import Control, ControlType
 
+import os
 import os.path
 import shutil
 import fileinput
@@ -21,7 +22,12 @@ class ControlManager:
         template_content = [x.strip().replace(' ', '') for x in template_content]
 
         # determine actual config
-        platform_config_path = config.RPG_ROOT + "/src/config/controls/" + self._platform + "/config.cfg"
+        platform_config_path = config.RPG_ROOT + "/src/config/controls/" + self._platform + "/backup/"
+
+        if not os.path.exists(platform_config_path):
+            os.makedirs(platform_config_path)
+
+        platform_config_path += "config.cfg"
 
         if not os.path.exists(platform_config_path):
             shutil.copyfile(template_path, platform_config_path)
@@ -110,7 +116,7 @@ class ControlManager:
         return True
 
     def update_value_in_file(self, field, value):
-        platform_config_path = config.RPG_ROOT + "/src/config/controls/" + self._platform + "/config.cfg"
+        platform_config_path = config.RPG_ROOT + "/src/config/controls/" + self._platform + "/backup/config.cfg"
 
         search = str(field) + " = .*"
         replace = str(field) + " = \"" + str(value) + "\""
@@ -130,3 +136,13 @@ class ControlManager:
                 return
             # override the value in .conf file of the platform
             self.update_value_in_file(field, converted)
+
+    def restore_control_config(self):
+        # delete the config.cfg in platform directory and copy the one in backup directory
+        backup_path = config.RPG_ROOT + "/src/config/controls/" + self._platform + "/backup/config.cfg"
+        platform_config_path = config.RPG_ROOT + "/src/config/controls/" + self._platform + "/config.cfg" 
+
+        if os.path.isfile(platform_config_path):
+            os.remove(platform_config_path)
+        if os.path.isfile(backup_path):
+            shutil.copyfile(backup_path, platform_config_path)

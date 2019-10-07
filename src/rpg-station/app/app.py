@@ -34,6 +34,9 @@ class App:
                 if current_params == None:
                     break
             elif '.' in result:
+                # TODO: restore the game configuration file
+                cm = ControlManager(platform=current_params.title.lower())
+                cm.restore_control_config()
                 # run a game
                 gm = GameRunner(platform=current_params.title, file_name=result)
                 gm.run()
