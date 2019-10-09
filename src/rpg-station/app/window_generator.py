@@ -1,15 +1,23 @@
 import os
 import glob
 from .config_manager import ConfigManager
+from .control_manager import ControlManager
 from . import config
 
 # class for holding single window parameters
 class WindowParameters:
-    def __init__(self, title, options, current_id, previous_id):
+    def __init__(self, title, options, current_id, previous_id, extend_window=False):
         self.title = title
         self.options = options
         self.current_id = current_id
         self.previous_id = previous_id
+        self.extend_window = extend_window
+
+    def refresh_options(self, platform):
+        cm = ControlManager(platform.lower())
+        controls = cm.get_configurable_inputs()
+        self.options = controls
+
 class WindowGenerator:
     """
         Returns: platforms(List<String>) -
@@ -49,6 +57,7 @@ class WindowGenerator:
     """
     def define_windows(self):
         windows = []
+        TRAILING_SPACE = " "
         platforms = self.define_platforms()
         print (platforms)
         windows.append(WindowParameters(title="Raspberry Pi Gaming Station",
@@ -60,22 +69,14 @@ class WindowGenerator:
                                         options=platforms,
                                         current_id=2,
                                         previous_id=1))
-        # TODO: change to actual game list
-        # pick a game window
-        windows.append(WindowParameters(title="Games",
-                                        options=["Mario","Pokemon","GTA"],
-                                        current_id=3,
-                                        previous_id=2))
         # select platform for controls window
-
         windows.append(WindowParameters(title="Pick a platform",
                                         options=platforms,
                                         current_id=4,
                                         previous_id=1))
-        # TODO: change the title to Controls-$PLATFORM
-        # window for setting up controls for specific platform
+        # window for picking a platform to setup controls
         windows.append(WindowParameters(title="Controls",
-                                        options=["Save"],
+                                        options=list(map(lambda x: x + TRAILING_SPACE, platforms)),
                                         current_id=5,
                                         previous_id=1))
         # TODO: fill this window with options
@@ -89,9 +90,9 @@ class WindowGenerator:
         windows.append(WindowParameters(title="New Platform",
                                         options=["Save"],
                                         current_id=7,
-                                        previous_id=2))
+                                        previous_id=1))
         curr_id = 7
-        # Generate platform specific windows
+        # Generate platform specific windows for games
         for plat in platforms:
             games = self.get_games(plat)
             curr_id += 1
@@ -99,8 +100,19 @@ class WindowGenerator:
                                             options=games,
                                             current_id=curr_id,
                                             previous_id=2))
+            # Platform control configuration window
+            # TODO: create a function to get configurable controls for a specific platform
+            #controls = self.get_control_options(plat)
+            cm = ControlManager(plat.lower())
+            controls = cm.get_configurable_inputs()
+            # TRAILING_SPACE - workaround for windows to not be confused with platforms for games
+            # TODO: add refresh of control values
+            windows.append(WindowParameters(title=plat + TRAILING_SPACE,
+                                            options=controls,
+                                            current_id=curr_id + len(platforms),
+                                            previous_id=5,
+                                            extend_window=True))
         return windows
-
 
     def get_windowparameters_by_title(self, windows, title):
         for window_parameters in windows:
@@ -108,7 +120,8 @@ class WindowGenerator:
                 return WindowParameters(window_parameters.title,
                                        window_parameters.options,
                                        window_parameters.current_id,
-                                       window_parameters.previous_id)
+                                       window_parameters.previous_id,
+                                       window_parameters.extend_window)
         return None
 
     def get_windowparameters_by_id(self, windows, current_id):
@@ -117,5 +130,8 @@ class WindowGenerator:
                 return WindowParameters(window_parameters.title,
                                         window_parameters.options,
                                         window_parameters.current_id,
-                                        window_parameters.previous_id)
+                                        window_parameters.previous_id,
+                                        window_parameters.extend_window)
         return None
+
+    

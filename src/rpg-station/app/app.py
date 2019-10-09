@@ -1,15 +1,20 @@
 from gui.window import Window
+from gui.control_prompt import ControlPrompt
 from .window_generator import WindowGenerator
 from .game_runner import GameRunner
-import ctypes
+from .control_detector import ControlDetector, Control, ControlType
+from .control_manager import ControlManager
 
+import ctypes
 import pygame
+import time
 
 class App:
     def run(self):
         print("Initialized the application @app class")
         window_generator = WindowGenerator()
         windows = window_generator.define_windows()
+        # set main menu as starting window
         current_params = window_generator.get_windowparameters_by_title(windows, "Raspberry Pi Gaming Station")
         # initalize pygame submodules
         pygame.init()
@@ -18,14 +23,21 @@ class App:
         # create a pygame default window
         screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         while True:
-            current_window = Window(screen=screen, title=current_params.title, choices=current_params.options, controls=[""])
+            current_window = Window(screen=screen, 
+                                    title=current_params.title, 
+                                    choices=current_params.options, 
+                                    controls=[""], 
+                                    extend_window=current_params.extend_window)
             result = current_window.display()
             if result == "Exit":
                 current_params = window_generator.get_windowparameters_by_id(windows, current_params.previous_id)
                 if current_params == None:
                     break
             elif '.' in result:
-                #run a game
+                # TODO: restore the game configuration file
+                cm = ControlManager(platform=current_params.title.lower())
+                cm.restore_control_config()
+                # run a game
                 gm = GameRunner(platform=current_params.title, file_name=result)
                 gm.run()
             else:
@@ -33,6 +45,25 @@ class App:
                     result = "Platforms"
                 new_params = window_generator.get_windowparameters_by_title(windows, result)
                 if new_params != None:
+                    # if the window is a control window
                     current_params = new_params
+                elif current_params.extend_window:
+                    # show a new window to prompt for controls
+                    # TODO: refresh the list of controls
+                    current_params.refresh_options(platform=current_params.title.replace(' ', '').lower())
+                    cw = ControlPrompt(screen=screen,
+                                        control_to_change=result)
+                    cw.display()
+                    # detect pressed control
+                    control = ControlDetector.detect_control()
+                    # platform is current window title minus the trailing space
+                    cm = ControlManager(platform=current_params.title.replace(' ', '').lower())
+                    cm.update_control_value(result, control)
+                    # run ControlManager to configure the cfg file
+                    # destroy the screen
+                    cw.destroy()
+                    # TODO: refresh the list of controls
+                    current_params.refresh_options(platform=current_params.title.replace(' ', '').lower())
+
         pygame.display.quit()
         pygame.quit()

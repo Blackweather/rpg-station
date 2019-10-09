@@ -22,8 +22,10 @@ class GameRunner:
 
     def run_script(self, path, core):
         print("Running command:")
-        print("/bin/bash -c " + self.RUN_SCRIPT_PATH + self.RUN_SCRIPT_NAME + " " + core + " \"" + path + "\"")
-        arguments = self.RUN_SCRIPT_PATH + self.RUN_SCRIPT_NAME + " " + core + " \"" + path + "\""
+        config_path = config.RPG_ROOT + "/src/config/controls/" + self.platform.lower() + "/config.cfg"
+        print("/bin/bash -c " + self.RUN_SCRIPT_PATH + self.RUN_SCRIPT_NAME + " " + core + " \"" + path + "\"" +
+            " \"" + config_path + "\"")
+        arguments = self.RUN_SCRIPT_PATH + self.RUN_SCRIPT_NAME + " " + core + " \"" + path + "\"" + " \"" + config_path + "\""
         subprocess.Popen(['/bin/bash', '-c', arguments])
 
     def run(self):
