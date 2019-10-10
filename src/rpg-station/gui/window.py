@@ -224,6 +224,8 @@ class Window:
                             #print("Selection: " + selected)
                             self.destroy()
                             return selected
+                    elif event.key == pygame.K_ESCAPE:
+                        return "Exit"
 
             # Window display
             self.screen.fill(self.blue)
