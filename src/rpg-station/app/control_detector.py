@@ -1,12 +1,11 @@
 import pygame
-from enum import Enum
+from enum import EnumMeta
 
-class ControlType(Enum):
-    KEYBOARD = 1
-    BUTTON = 2
-    HAT = 3
-    AXIS = 4
-
+class ControlType(EnumMeta):
+    KEYBOARD = "ControlType.KEYBOARD"
+    BUTTON = "ControlType.BUTTON"
+    HAT = "ControlType.HAT"
+    AXIS = "ControlType.AXIS"
 
 class Control:
     def __init__(self, control_type, number, value):
@@ -14,13 +13,18 @@ class Control:
         self.number = number
         self.value = value
 
+    @classmethod
+    def from_json(cls, data):
+        return cls(**data)
+
 
 class ControlDetector:
     @staticmethod
     def detect_control():
         pygame.init()
-        j = pygame.joystick.Joystick(0)
-        j.init()
+        if pygame.joystick.get_count():
+            j = pygame.joystick.Joystick(0)
+            j.init()
 
         AXIS_MINIMUM_TRESHOLD = 0.3
 

@@ -1,0 +1,56 @@
+{
+    "default_controls": {
+        "back": {
+            "control_type": "ControlType.BUTTON",
+            "number": 0,
+            "value": "escape"
+        },
+        "down": {
+            "control_type": "ControlType.BUTTON",
+            "number": 0,
+            "value": "down"
+        },
+        "left": {
+            "control_type": "ControlType.BUTTON",
+            "number": 0,
+            "value": "left"
+        },
+        "right": {
+            "control_type": "ControlType.BUTTON",
+            "number": 0,
+            "value": "right"
+        },
+        "up": {
+            "control_type": "ControlType.BUTTON",
+            "number": 0,
+            "value": "up"
+        }
+    },
+    "modified_controls": {
+        "back": {
+            "control_type": "ControlType.BUTTON",
+            "number": 0,
+            "value": "escape"
+        },
+        "down": {
+            "control_type": "ControlType.BUTTON",
+            "number": 0,
+            "value": "down"
+        },
+        "left": {
+            "control_type": "ControlType.BUTTON",
+            "number": 0,
+            "value": "left"
+        },
+        "right": {
+            "control_type": "ControlType.KEYBOARD",
+            "number": 0,
+            "value": "right"
+        },
+        "up": {
+            "control_type": "ControlType.BUTTON",
+            "number": 0,
+            "value": "up"
+        }
+    }
+}
