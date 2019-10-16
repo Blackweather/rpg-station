@@ -43,7 +43,7 @@ class Window:
     extend_window(bool): flag to extend the window - half of the options will be used 
     as values and moved to the right side
     """
-    def __init__(self, screen, title, choices, controls, extend_window=False):
+    def __init__(self, screen, title, choices, extend_window=False):
         self.screen = screen
         self.title = title
         if not extend_window:
@@ -54,10 +54,9 @@ class Window:
             self.values = choices[len(choices)//2:]
             self.choices = [*tmp, "Exit"]
             
-        self.controls = controls
         # parameter for extended window - used for controls and hotkeys windows
         self.extend_window = extend_window
-        if len(self.choices) > 0 and len(self.controls) > 0:
+        if len(self.choices) > 0:
             self.init_pygame()
             #print("Initialized pygame in Window with title: " + self.title)
         else:
@@ -248,8 +247,6 @@ class Window:
 
             # handle key events
             control = ControlDetector.detect_control()
-            print(vars(control))
-            print(vars(hk.modified_controls['down']))
             if control == hk.modified_controls['up'] or control == hk.default_controls['up']:
                 selected_index = self.switch_selection(selected_index, len(self.choices), -1)
                 selected = self.choices[selected_index]

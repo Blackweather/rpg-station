@@ -27,12 +27,12 @@ class App:
             current_window = Window(screen=screen, 
                                     title=current_params.title, 
                                     choices=current_params.options, 
-                                    controls=[""], 
                                     extend_window=current_params.extend_window)
             result = current_window.display()
             if result == "Exit":
                 current_params = window_generator.get_windowparameters_by_id(windows, current_params.previous_id)
                 if current_params == None:
+                    #TODO: ask to shutdown the system
                     break
             elif '.' in result:
                 # TODO: restore the game configuration file
