@@ -2,6 +2,7 @@ import os
 import glob
 from .config_manager import ConfigManager
 from .control_manager import ControlManager
+from .hotkey_manager import HotkeyManager, create_hotkey_manager
 from . import config
 
 # class for holding single window parameters
@@ -17,6 +18,11 @@ class WindowParameters:
         cm = ControlManager(platform.lower())
         controls = cm.get_configurable_inputs()
         self.options = controls
+
+    def refresh_hotkeys(self):
+        hm = create_hotkey_manager()
+        hotkeys = hm.get_opt_list()
+        self.options = hotkeys
 
 class WindowGenerator:
     """
@@ -81,10 +87,12 @@ class WindowGenerator:
                                         previous_id=1))
         # TODO: fill this window with options
         # window for setting up menu hotkeys
+        hm = create_hotkey_manager()
         windows.append(WindowParameters(title="Hotkeys",
-                                        options=["Save"],
+                                        options=hm.get_opt_list(),
                                         current_id=6,
-                                        previous_id=1))
+                                        previous_id=1,
+                                        extend_window=True))
         # TODO: fill this window with options
         # window for setting up a new platform
         windows.append(WindowParameters(title="New Platform",

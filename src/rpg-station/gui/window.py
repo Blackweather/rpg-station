@@ -1,3 +1,6 @@
+from app.hotkey_manager import HotkeyManager, create_hotkey_manager
+from app.control_detector import ControlDetector, Control
+
 import pygame
 
 class Window:
@@ -27,7 +30,7 @@ class Window:
 
     def text_format(self, message, text_font, text_size, text_color):
         new_font = pygame.font.Font(text_font, text_size)
-        new_text = new_font.render(message, 0, text_color)
+        new_text = new_font.render(str(message), 0, text_color)
         return new_text
     """
     Description: class constructor for standarized rpg-station window
@@ -175,11 +178,11 @@ class Window:
         choice_num = 0
         # iterate through values if extended
         if self.extend_window:
-            # print("Choices: ", len(self.choices))
-            # print("Values: ", len(self.values))
             for value in self.values:
-                opt = str(value.replace('""', ''))
-                #print(opt)
+                if type(value) is str:
+                    opt = str(value.replace('""', ''))
+                else:
+                    opt = str(value)
                 # check width for x coord
                 choice_num += 1
                 text_opt = self.text_format(opt, self.font, font_sizes[1], self.black)
@@ -204,29 +207,10 @@ class Window:
         # Window loop
         selected = self.choices[0]
         selected_index = 0
+        # Window display
+        # generate mappings
+        hk = create_hotkey_manager()
         while True:
-            # handling key events
-            for event in pygame.event.get():
-                # TODO: support multiple control options
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_UP:
-                        selected_index = self.switch_selection(selected_index, len(self.choices), -1)
-                        selected = self.choices[selected_index]
-                    elif event.key == pygame.K_DOWN:
-                        selected_index = self.switch_selection(selected_index, len(self.choices), 1)
-                        selected = self.choices[selected_index]
-                    elif event.key == pygame.K_RETURN:
-                        if selected == "Exit":
-                            #print("Going back from the Window " + self.title)
-                            self.destroy()
-                            return "Exit"
-                        else:
-                            #print("Selection: " + selected)
-                            self.destroy()
-                            return selected
-                    elif event.key == pygame.K_ESCAPE:
-                        return "Exit"
-
             # Window display
             self.screen.fill(self.blue)
             title_font_size = self.get_font_size()[0]
@@ -261,6 +245,26 @@ class Window:
 
             pygame.display.update()
             self.clock.tick(self.FPS)
+
+            # handle key events
+            control = ControlDetector.detect_control()
+            print(vars(control))
+            print(vars(hk.modified_controls['down']))
+            if control == hk.modified_controls['up'] or control == hk.default_controls['up']:
+                selected_index = self.switch_selection(selected_index, len(self.choices), -1)
+                selected = self.choices[selected_index]
+            elif control == hk.modified_controls['down'] or control == hk.default_controls['down']:
+                selected_index = self.switch_selection(selected_index, len(self.choices), 1)
+                selected = self.choices[selected_index]
+            elif control == hk.modified_controls['back'] or control == hk.default_controls['back']:
+                return "Exit"
+            elif control == hk.modified_controls['enter'] or control == hk.default_controls['enter']:
+                if selected == "Exit":
+                    self.destroy()
+                    return "Exit"
+                else:
+                    self.destroy()
+                    return selected
 
     def destroy(self):
         # Quit pygame without quitting application

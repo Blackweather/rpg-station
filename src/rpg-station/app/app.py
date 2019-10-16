@@ -4,6 +4,7 @@ from .window_generator import WindowGenerator
 from .game_runner import GameRunner
 from .control_detector import ControlDetector, Control, ControlType
 from .control_manager import ControlManager
+from .hotkey_manager import HotkeyManager, create_hotkey_manager
 
 import ctypes
 import pygame
@@ -47,9 +48,22 @@ class App:
                 if new_params != None:
                     # if the window is a control window
                     current_params = new_params
+                # figure out how to distinguish control from hotkeys
+                elif current_params.title == "Hotkeys":
+                    current_params.refresh_hotkeys()
+                    # run control prompt
+                    cw = ControlPrompt(screen, control_to_change=result)
+                    cw.display()
+                    # detect pressed control
+                    control = ControlDetector.detect_control()
+                    # run HotkeyManager to configure the json with hotkeys
+                    hm = create_hotkey_manager()
+                    hm.change_hotkey(opt=result, new_control=control)
+                    cw.destroy()
+                    current_params.refresh_hotkeys()
+
                 elif current_params.extend_window:
                     # show a new window to prompt for controls
-                    # TODO: refresh the list of controls
                     current_params.refresh_options(platform=current_params.title.replace(' ', '').lower())
                     cw = ControlPrompt(screen=screen,
                                         control_to_change=result)
@@ -62,7 +76,6 @@ class App:
                     # run ControlManager to configure the cfg file
                     # destroy the screen
                     cw.destroy()
-                    # TODO: refresh the list of controls
                     current_params.refresh_options(platform=current_params.title.replace(' ', '').lower())
 
         pygame.display.quit()
