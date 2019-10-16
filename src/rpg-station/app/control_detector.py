@@ -11,7 +11,21 @@ class Control:
     def __init__(self, control_type, number, value):
         self.control_type = control_type
         self.number = number
-        self.value = value
+        if type(value) is list:
+            self.value = tuple(value)
+        else:
+            self.value = value
+
+    def __eq__(self, other):
+        if type(other) is type(self):
+            if self.control_type == ControlType.AXIS and other.control_type == ControlType.AXIS:
+                if self.value < 0 and other.value < 0 and abs(self.value - other.value) < 0.1:
+                    return True
+                elif self.value > 0 and other.value > 0 and abs(self.value - other.value) < 0.1:
+                    return True
+                return False
+            return vars(self) == vars(other)
+        return False
 
     @classmethod
     def from_json(cls, data):
@@ -26,7 +40,7 @@ class ControlDetector:
             j = pygame.joystick.Joystick(0)
             j.init()
 
-        AXIS_MINIMUM_TRESHOLD = 0.3
+        AXIS_MINIMUM_TRESHOLD = 0.8
 
         running = True
         while running:
