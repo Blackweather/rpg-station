@@ -26,7 +26,8 @@ class GameRunner:
         print("/bin/bash -c " + self.RUN_SCRIPT_PATH + self.RUN_SCRIPT_NAME + " " + core + " \"" + path + "\"" +
             " \"" + config_path + "\"")
         arguments = self.RUN_SCRIPT_PATH + self.RUN_SCRIPT_NAME + " " + core + " \"" + path + "\"" + " \"" + config_path + "\""
-        subprocess.Popen(['/bin/bash', '-c', arguments])
+        process = subprocess.Popen(['/bin/bash', '-c', arguments])
+        process.wait()
 
     def run(self):
         path = self.get_full_path()

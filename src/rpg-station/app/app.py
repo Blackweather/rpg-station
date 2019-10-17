@@ -9,6 +9,7 @@ from .hotkey_manager import HotkeyManager, create_hotkey_manager
 import ctypes
 import pygame
 import time
+import os
 
 class App:
     def run(self):
@@ -18,11 +19,13 @@ class App:
         # set main menu as starting window
         current_params = window_generator.get_windowparameters_by_title(windows, "Raspberry Pi Gaming Station")
         # initalize pygame submodules
+        os.environ['SDL_VIDEO_WINDOW_POS'] = "0,0"
         pygame.init()
         # disable mouse cursor
         pygame.mouse.set_visible(0)
         # create a pygame default window
-        screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+        info = pygame.display.Info()
+        screen = pygame.display.set_mode((info.current_w, info.current_h), pygame.NOFRAME)
         while True:
             current_window = Window(screen=screen, 
                                     title=current_params.title, 
