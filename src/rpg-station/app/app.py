@@ -35,7 +35,6 @@ class App:
                     #TODO: ask to shutdown the system
                     break
             elif '.' in result:
-                # TODO: restore the game configuration file
                 cm = ControlManager(platform=current_params.title.lower())
                 cm.restore_control_config()
                 # run a game

@@ -36,8 +36,9 @@ class ControlDetector:
     @staticmethod
     def detect_control():
         pygame.init()
-        if pygame.joystick.get_count():
-            j = pygame.joystick.Joystick(0)
+        pygame.joystick.init()
+        joysticks = [pygame.joystick.Joystick(x) for x in range(pygame.joystick.get_count())]
+        for j in joysticks:
             j.init()
 
         AXIS_MINIMUM_TRESHOLD = 0.8

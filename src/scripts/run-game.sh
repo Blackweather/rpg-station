@@ -2,7 +2,6 @@
 # this scripts run the specified rom file
 # with a specified libretro core
 # example usage: ./run-game.sh gambatte ../../rom/gb/adjustris.gb
-# TODO: support a custom config by adding in the platform as an additional parameter
 
 # TODO: change the path to standard path on raspbian
 libretro_path='/usr/lib/x86_64-linux-gnu/libretro/'
