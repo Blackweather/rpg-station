@@ -85,7 +85,6 @@ class WindowGenerator:
                                         options=list(map(lambda x: x + TRAILING_SPACE, platforms)),
                                         current_id=5,
                                         previous_id=1))
-        # TODO: fill this window with options
         # window for setting up menu hotkeys
         hm = create_hotkey_manager()
         windows.append(WindowParameters(title="Hotkeys",
@@ -109,12 +108,10 @@ class WindowGenerator:
                                             current_id=curr_id,
                                             previous_id=2))
             # Platform control configuration window
-            # TODO: create a function to get configurable controls for a specific platform
             #controls = self.get_control_options(plat)
             cm = ControlManager(plat.lower())
             controls = cm.get_configurable_inputs()
             # TRAILING_SPACE - workaround for windows to not be confused with platforms for games
-            # TODO: add refresh of control values
             windows.append(WindowParameters(title=plat + TRAILING_SPACE,
                                             options=controls,
                                             current_id=curr_id + len(platforms),
