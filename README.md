@@ -17,8 +17,10 @@ This repository uses GitHub flow https://guides.github.com/introduction/flow/
 ```
    .            # LICENSE, README, .gitignore, start.sh Bash script
    |-install    # Installation files
+   |-rom        # Imported ROM directory
    |-src        # Main source directory
    |---config   # Configuration files directory
+   |-----controls    # Control configuration files directory
    |---docs     # Additional documentation directory
    |---images   # Images directory
    |---rpg-station 	# Python code root directory
