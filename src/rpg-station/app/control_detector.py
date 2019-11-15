@@ -47,17 +47,14 @@ class ControlDetector:
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.JOYBUTTONDOWN:
-                    #rint("Pressed button " + str(event.button))
                     result = Control(ControlType.BUTTON, 0, event.button)
                     return result
 
                 elif event.type == pygame.JOYHATMOTION:
-                    #print("Moved hat #" + str(event.hat) + " with value: " + str(event.value))
                     result = Control(ControlType.HAT, event.hat, event.value)
                     return result
 
                 elif event.type == pygame.JOYAXISMOTION:
-                    #print("Moved axis #" + str(event.axis) + " with value: " + str(event.value))
                     # introduce minimum value to process the event to prevent accidental trigger
                     
                     if event.value >= AXIS_MINIMUM_TRESHOLD or event.value <= -AXIS_MINIMUM_TRESHOLD:
@@ -65,6 +62,5 @@ class ControlDetector:
                         return result
 
                 elif event.type == pygame.KEYDOWN:
-                    #print("Pushed keyboard button: " + str(pygame.key.name(event.key)))
                     result = Control(ControlType.KEYBOARD, 0, pygame.key.name(event.key))
                     return result
