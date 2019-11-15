@@ -45,11 +45,17 @@ class GameManager:
                 # if matched add to list in dict (platform:files)
                 if matched_platform.lower() not in matched_files:
                     matched_files[matched_platform] = []
+        for _file in files:
+            # check if matched with extension
+            matched_platform = self.match_extension(platforms, _file)
+            if matched_platform != None:
+                # if matched add to list in dict (platform:files)
                 matched_files[matched_platform].append(_file)
         return matched_files
 
     def load_from_dir(self, directory):
         matched_files = self.match_from_dir(directory)
+        
         ROOT_ROM_DIR = config.RPG_ROOT + "/rom/"
         for platform in matched_files.keys():
             platform_path = os.path.join(ROOT_ROM_DIR, platform.lower())
