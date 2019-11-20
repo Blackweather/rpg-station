@@ -22,7 +22,7 @@ elif [[ "$#" -eq 1 ]]; then
 		echo "Start Raspberry Pi Gaming Station - ./start.sh"
 		echo "Install all dependencies - ./start.sh -i"
 		echo "Uninstall all dependencies (including python) - ./start.sh -u --all"
-	    echo "Uninstall all dependencies (excluding python) - ./start.sh -u --no-python"
+		echo "Uninstall all dependencies (excluding python) - ./start.sh -u --no-python"
 		echo "Uninstall only dependencies connected to libretro - ./start.sh -u --rpg"
 	else
 		show_warning
