@@ -7,7 +7,7 @@ function show_warning() {
 	echo "Use ./start.sh -h for help"
 }
 
-if [[ "$#" -e 0 ]]; then
+if [[ "$#" -eq 0 ]]; then
 	echo "Starting Raspberry Pi Gaming Station"
 	cd src/rpg-station
 	python3 runner.py
@@ -24,7 +24,6 @@ elif [[ "$#" -eq 1 ]]; then
 		echo "Uninstall all dependencies (including python) - ./start.sh -u --all"
 	    echo "Uninstall all dependencies (excluding python) - ./start.sh -u --no-python"
 		echo "Uninstall only dependencies connected to libretro - ./start.sh -u --rpg"
-
 	else
 		show_warning
 	fi
