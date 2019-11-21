@@ -114,7 +114,7 @@ rom/*
 !rom/gb/adjustris.gb
 
 src/config/controls/*
-!src/config/coontrols/template/
+!src/config/controls/template/
 
 # SonarQube stuff
 .scannerwork
