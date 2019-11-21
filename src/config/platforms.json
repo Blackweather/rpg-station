@@ -18,23 +18,23 @@
                 ".smc"
             ]
         },
-	{
-	    "platformName": "Nintendo Game Boy",
-	    "platformShort": "GB",
-	    "displayImage": "../images/placeholder.jpg",
-	    "coreName": "gambatte",
-	    "extensions": [
-		".gb"
-	    ]
-	},
-	{
-	    "platformName": "Nintendo Game Boy Advance",
-	    "platformShort": "GBA",
-	    "displayImage": "../images/placeholder.jpg",
-	    "coreName": "mgba",
-	    "extensions": [
-		".gba"
-	    ]
-	}
+        {
+            "platformName": "Nintendo Game Boy",
+            "platformShort": "GB",
+            "displayImage": "../images/placeholder.jpg",
+            "coreName": "gambatte",
+            "extensions": [
+                ".gb"
+            ]
+        },
+        {
+            "platformName": "Nintendo Game Boy Advance",
+            "platformShort": "GBA",
+            "displayImage": "../images/placeholder.jpg",
+            "coreName": "mgba",
+            "extensions": [
+                ".gba"
+            ]
+        }
     ]
 }
