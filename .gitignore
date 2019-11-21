@@ -118,3 +118,6 @@ src/config/controls/*
 
 # SonarQube stuff
 .scannerwork
+
+# Visual Studio folder
+.vs/
