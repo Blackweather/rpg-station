@@ -1,12 +1,13 @@
 {
   "ExpandedNodes": [
     "",
-    "\\install",
     "\\src",
+    "\\src\\config",
     "\\src\\rpg-station",
     "\\src\\rpg-station\\app",
-    "\\src\\rpg-station\\gui"
+    "\\src\\rpg-station\\gui",
+    "\\src\\scripts"
   ],
-  "SelectedNode": "\\install\\uninstall.sh",
+  "SelectedNode": "\\src\\config\\platforms.json",
   "PreviewInSolutionExplorer": false
 }

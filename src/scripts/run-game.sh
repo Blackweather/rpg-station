@@ -4,7 +4,7 @@
 # example usage: ./run-game.sh gambatte ../../rom/gb/adjustris.gb
 
 # TODO: change the path to standard path on raspbian
-libretro_path='/usr/lib/x86_64-linux-gnu/libretro/'
+libretro_path='/usr/lib/arm-linux-gnueabihf/libretro/'
 core_extension='_libretro.so'
 if [[ $# -gt 0 ]] ; then
 	core_path="$libretro_path$1$core_extension"
