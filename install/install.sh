@@ -59,8 +59,8 @@ fi
 LSCHECK=$(ls ~/. | grep libretro-super)
 if [[ -z "$LSCHECK" ]] ; then
 	
-	sudo apt-get -y install build-essential libxkbcommon-dev zlib1g-dev \
-	libfreetype6-dev libegl1-mesa-dev libgles2-mesa-dev libgbm-dev libavcodec-dev \
+	sudo apt-get -y install libxkbcommon-dev zlib1g-dev libfreetype6-dev \
+	ibegl1-mesa-dev libgles2-mesa-dev libgbm-dev libavcodec-dev \
 	libsdl2-dev libsdl-image1.2-dev libxml2-dev yasm git
 	CURRENTPATH=$(pwd)
 	cd ~/.
@@ -71,11 +71,10 @@ if [[ -z "$LSCHECK" ]] ; then
 	cd $CURRENTPATH
 fi
 	
-
 # check that retroarch installed
 RACHECK=$(flatpak list | grep org.libretro.RetroArch)
 if [[ -z "$RACHECK" ]] ; then
-	sudo flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-	sudo flatpak install --user flathub org.libretro.RetroArch
-	sudo flatpak --user update
+	flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+	flatpak install -y flathub org.libretro.RetroArch
+	flatpak update
 fi
