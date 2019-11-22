@@ -5,24 +5,59 @@
 # --no-python: delete all dependencies (excluding python)
 # --rpg: delete only dependencies connected to libretro
 
-if [[ "$#" -e 0 ]]; then
-	./install/install.sh show_warning
-elif [[ "$1" == "--all" ]]
-	# remove retroarch packages
-	sudo apt-get -y purge retroarch-assets
-	sudo apt-get -y purge retroarch
-	# remove libretro repository
-	sudo add-apt-repository --remove -y ppa:libretro/stable
-	# remove python dependencies
+function uninstall_rpg() {
+	# check if retroarch installed
+	RACHECK=$(flatpak list | grep org.libretro.RetroArch)
+	# uninstall retroarch
+	if [[ -n "$RACHECK" ]] ; then
+		flatpak uninstall -y flathub org.libretro.RetroArch
+	fi
+	
+	# check if libretro-super is downloaded
+	LSCHECK=$(ls ~/. | grep libretro-super)
+	if [[ -n "$LSCHECK" ]] ; then
+		CURRENTPATH=$(pwd)
+		cd ~/.
+		# remove libretro-super
+		sudo rm -r libretro-super
+		# remove packages needed to install libretro-super
+		sudo apt-get -y purge libxkbcommon-dev zlib1g-dev libfreetype6-dev \
+		libegl1-mesa-dev libgles2-mesa-dev libgbm-dev libavcodec-dev \
+		libsdl2-dev libsdl-image1.2-dev libxml2-dev yasm
+		cd $CURRENTPATH
+	fi
+}
+
+function uninstall_pyth() {
+	# remove python and pip commands default version aliases
 	head -n -6 ~/.bashrc > tmp
 	mv tmp ~/.bashrc 
 	rm tmp
+	. ~/.bashrc
+	
+	# remove python packages
+	sudo pip3 uninstall pygame pytest
+
+	# remove pip
+	sudo apt-get -y purge python3-pip
+}
+
+function uninstall_pkgs() {
+	# remove system-prepare packages
+	sudo apt-get -y purge software-properties-common build-essential flatpak
+}
+
+if [[ "$#" -e 0 ]]; then
+	./install/install.sh show_warning
+elif [[ "$1" == "--all" ]]
+	uninstall_rpg
+	uninstall_pyth
+	uninstall_pkgs
 elif [[ "$1" == "--no-python" ]]
-	# remove retroarch packages
-	sudo apt-get -y purge retroarch-assets
-	sudo apt-get -y purge retroarch
-	# remove libretro repository
-	sudo add-apt-repository --remove -y ppa:libretro/stable
+	uninstall_rpg
+	uninstall_pkgs
 elif [[ "$1" == "--rpg" ]]
-	# TODO
+	uninstall_rpg
 fi
+
+sudo apt-get -y update
