@@ -10,7 +10,7 @@ function uninstall_rpg() {
 	RACHECK=$(flatpak list | grep org.libretro.RetroArch)
 	# uninstall retroarch
 	if [[ -n "$RACHECK" ]] ; then
-	flatpak uninstall -y flathub org.libretro.RetroArch
+		flatpak uninstall -y flathub org.libretro.RetroArch
 	fi
 	
 	# check if libretro-super is downloaded
