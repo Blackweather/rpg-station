@@ -78,3 +78,12 @@ if [[ -z "$RACHECK" ]] ; then
 	flatpak install -y flathub org.libretro.RetroArch
 	flatpak update
 fi
+
+# install python requirenmets.txt
+sudo pip install -r ../requirenmets.txt
+
+# install 4 default platforms
+./install_platform.sh nestopia
+./install_platform.sh snes9x
+./install_platform.sh mgba
+./install_platform.sh gambatte
