@@ -64,7 +64,7 @@ if [[ -z "$LSCHECK" ]] ; then
 	libsdl2-dev libsdl-image1.2-dev libxml2-dev yasm git
 	CURRENTPATH=$(pwd)
 	cd ~/.
-	# download libretro-super to ~/libertro-super
+	# download libretro-super to ~/liberetro-super
 	git clone git://github.com/libretro/libretro-super.git
 	cd libretro-super
 	SHALLOW_CLONE=1 ./libretro-fetch.sh

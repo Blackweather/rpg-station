@@ -10,15 +10,15 @@ PLATCHECK=$(ls /usr/lib/arm-linux-gnueabihf/libretro/. | grep $1)
 if [[ -z "$PLATCHECK"  ]] ; then
 	echo "$LIBPLAT is not installed"
 else
-	# remove builded core from retroarch
+	# remove built core from retroarch
 	sudo rm "/usr/lib/arm-linux-gnueabihf/libretro/$LIBPLAT.so"
 	
-	# check if core is builded
+	# check if core is built
 	PLATCHECK2=$(ls ~/libretro-super/dist/unix | grep $1)
 	if [[ -z "$PLATCHECK2" ]] ; then
-		echo "$LIBPLAT is not builded"
+		echo "$LIBPLAT is not built"
 	else
-		# remove builded core
+		# remove built core
 		sudo rm "~/libretro-super/dist/unix/$LIBPLAT.so"
 	fi
 fi

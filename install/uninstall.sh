@@ -6,14 +6,14 @@
 # --rpg: delete only dependencies connected to libretro
 
 function uninstall_rpg() {
-	# check that retroarch installed
+	# check if retroarch installed
 	RACHECK=$(flatpak list | grep org.libretro.RetroArch)
 	# uninstall retroarch
 	if [[ -n "$RACHECK" ]] ; then
-	flatpak uninstall -y flathub org.libretro.RetroArch
+		flatpak uninstall -y flathub org.libretro.RetroArch
 	fi
 	
-	# check that libretro-super is downloaded
+	# check if libretro-super is downloaded
 	LSCHECK=$(ls ~/. | grep libretro-super)
 	if [[ -n "$LSCHECK" ]] ; then
 		CURRENTPATH=$(pwd)
@@ -28,7 +28,7 @@ function uninstall_rpg() {
 	fi
 }
 
-function uninstall_pyht() {
+function uninstall_pyth() {
 	# remove python and pip commands default version aliases
 	head -n -6 ~/.bashrc > tmp
 	mv tmp ~/.bashrc 
