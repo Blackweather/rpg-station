@@ -36,13 +36,19 @@ function uninstall_pyht() {
 	. ~/.bashrc
 	
 	# remove python packages
-	sudo pip3 uninstall pygame pytest
+	sudo pip uninstall -r ../requirements.txt
 
 	# remove pip
 	sudo apt-get -y purge python3-pip
 }
 
 function uninstall_pkgs() {
+	# uninstall defualt platforms
+	./uninstall_platform.sh nestopia
+	./uninstall_platform.sh snes9x
+	./uninstall_platform.sh mgba
+	./uninstall_platform.sh gambatte
+	
 	# remove system-prepare packages
 	sudo apt-get -y purge software-properties-common build-essential flatpak
 }
