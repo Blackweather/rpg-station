@@ -79,8 +79,8 @@ if [[ -z "$RACHECK" ]] ; then
 	flatpak update
 fi
 
-# install python requirenmets.txt
-sudo pip install -r ../requirenmets.txt
+# install python requirements.txt
+sudo pip install -r ../requirements.txt
 
 # install 4 default platforms
 ./install_platform.sh nestopia
